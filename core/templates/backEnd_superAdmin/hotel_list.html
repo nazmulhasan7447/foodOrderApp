@@ -76,7 +76,7 @@
                                 {% if hotel_list %}
                                 {% for x in hotel_list %}
                                 <tr>
-                                    <td>{{forloop.counter}}</td>
+                                    <td>{{x.hotel_id}}</td>
                                     <td>{{x.name}}</td>
                                     <td>{{x.city}}</td>
                                     <td>{{x.state}}</td>

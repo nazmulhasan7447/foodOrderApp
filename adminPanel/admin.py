@@ -7,3 +7,5 @@ class HoteListAdmin(admin.ModelAdmin):
 admin.site.register(Hotels, HoteListAdmin)
 
 
+admin.site.register(HotelImages)
+admin.site.register(Deals)

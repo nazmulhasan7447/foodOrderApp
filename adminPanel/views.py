@@ -210,6 +210,10 @@ def ap_add_hotel(request):
         parking = request.POST.get('parking')
         ac = request.POST.get('ac')
 
+        images = request.FILES.getlist('hotel__images')
+
+        hotel_id = uuid.uuid4()
+
         try:
             wif_i = False
             t_v = False
@@ -226,6 +230,7 @@ def ap_add_hotel(request):
                 a_c = True
 
             hotel_model = Hotels(
+                hotel_id=hotel_id,
                 name=name,
                 city=city,
                 state=state,
@@ -243,6 +248,41 @@ def ap_add_hotel(request):
                 wifi=wif_i,
                 )
             hotel_model.save()
+
+            if images:
+                length_of_images = len(images)
+                hotel = Hotels.objects.get(hotel_id=hotel_id)
+                if length_of_images == 1:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0])
+                    hotel_img_model.save()
+                if length_of_images == 2:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1])
+                    hotel_img_model.save()
+                if length_of_images == 3:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1], img3=images[2])
+                    hotel_img_model.save()
+                if length_of_images == 4:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1], img3=images[2], img4=images[3])
+                    hotel_img_model.save()
+                if length_of_images == 5:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1], img3=images[2], img4=images[3], img5=images[4])
+                    hotel_img_model.save()
+                if length_of_images == 6:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1], img3=images[2], img4=images[3], img5=images[4], img6=images[5])
+                    hotel_img_model.save()
+                if length_of_images == 7:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1], img3=images[2], img4=images[3], img5=images[4], img6=images[5], img7=images[6])
+                    hotel_img_model.save()
+                if length_of_images == 8:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1], img3=images[2], img4=images[3], img5=images[4], img6=images[5], img7=images[6], img8=images[7])
+                    hotel_img_model.save()
+                if length_of_images == 9:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1], img3=images[2], img4=images[3], img5=images[4], img6=images[5], img7=images[6], img8=images[7], img9=images[8])
+                    hotel_img_model.save()
+                if length_of_images == 10:
+                    hotel_img_model = HotelImages(hotel=hotel, img1=images[0], img2=images[1], img3=images[2], img4=images[3], img5=images[4], img6=images[5], img7=images[6], img8=images[7], img9=images[8], img10=images[9])
+                    hotel_img_model.save()
+
             messages.success(request, "Successfully added!")
             return redirect('apHotelList')
         except:
@@ -282,6 +322,7 @@ def ap_del_hotel(request, pk):
 def ap_update_hotel_info(request, pk):
 
     current_obj = Hotels.objects.get(pk=pk)
+    current_hotel_img_obj = HotelImages.objects.filter(hotel=current_obj)
 
     if request.method == 'POST':
         name = request.POST['name']
@@ -300,39 +341,146 @@ def ap_update_hotel_info(request, pk):
         parking = request.POST.get('parking')
         ac = request.POST.get('ac')
 
+        fs = FileSystemStorage()
+
+        wif_i = False
+        t_v = False
+        parkin_g = False
+        a_c = False
+
+        if wifi == 'on':
+            wif_i = True
+        if tv == 'on':
+            t_v = True
+        if parking == 'on':
+            parkin_g = True
+        if ac == 'on':
+            a_c = True
+
+        current_obj.name = name
+        current_obj.city = city
+        current_obj.state = state
+        current_obj.description = description
+        current_obj.check_in = check_in
+        current_obj.check_out = check_out
+        current_obj.attraction_one_name = attraction_name_one
+        current_obj.attraction_one_distance = attraction_one_distance
+        current_obj.attraction_two_name = attraction_name_two
+        current_obj.attraction_two_distance = attraction_name_two_distance
+        current_obj.map_link = map_link
+        current_obj.ac = a_c
+        current_obj.parking = parkin_g
+        current_obj.tv = t_v
+        current_obj.wifi = wif_i
+        current_obj.save()
+
         try:
-            wif_i = False
-            t_v = False
-            parkin_g = False
-            a_c = False
+            images = request.FILES.getlist('hotel__images')
+            length_of_images = len(images)
+            hotel_image_model = HotelImages.objects.get(hotel=current_obj)
 
-            if wifi == 'on':
-                wif_i = True
-            if tv == 'on':
-                t_v = True
-            if parking == 'on':
-                parkin_g = True
-            if ac == 'on':
-                a_c = True
+            if images:
+                if current_hotel_img_obj[0].img1:
+                    fs.delete(current_hotel_img_obj[0].img1.name)
+                if current_hotel_img_obj[0].img2:
+                    fs.delete(current_hotel_img_obj[0].img2.name)
+                if current_hotel_img_obj[0].img3:
+                    fs.delete(current_hotel_img_obj[0].img3.name)
+                if current_hotel_img_obj[0].img4:
+                    fs.delete(current_hotel_img_obj[0].img4.name)
+                if current_hotel_img_obj[0].img5:
+                    fs.delete(current_hotel_img_obj[0].img5.name)
+                if current_hotel_img_obj[0].img6:
+                    fs.delete(current_hotel_img_obj[0].img6.name)
+                if current_hotel_img_obj[0].img7:
+                    fs.delete(current_hotel_img_obj[0].img7.name)
+                if current_hotel_img_obj[0].img8:
+                    fs.delete(current_hotel_img_obj[0].img8.name)
+                if current_hotel_img_obj[0].img9:
+                    fs.delete(current_hotel_img_obj[0].img9.name)
+                if current_hotel_img_obj[0].img10:
+                    fs.delete(current_hotel_img_obj[0].img10.name)
 
-            current_obj.name = name
-            current_obj.city = city
-            current_obj.state = state
-            current_obj.description = description
-            current_obj.check_in = check_in
-            current_obj.check_out = check_out
-            current_obj.attraction_one_name = attraction_name_one
-            current_obj.attraction_one_distance = attraction_one_distance
-            current_obj.attraction_two_name = attraction_name_two
-            current_obj.attraction_two_distance = attraction_name_two_distance
-            current_obj.map_link = map_link
-            current_obj.ac = a_c
-            current_obj.parking = parkin_g
-            current_obj.tv = t_v
-            current_obj.wifi = wif_i
-            current_obj.save()
-            messages.success(request, "Successfully updated!")
-            return redirect('apHotelList')
+                if length_of_images > 0:
+                    if length_of_images == 1:
+                        hotel_image_model.img1 = images[0]
+                        print(images[0])
+                        hotel_image_model.save()
+                        print(images[0])
+                    elif length_of_images == 2:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.save()
+                    elif length_of_images == 3:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.img3 = images[2]
+                        hotel_image_model.save()
+                    elif length_of_images == 4:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.img3 = images[2]
+                        hotel_image_model.img4 = images[3]
+                        hotel_image_model.save()
+                    elif length_of_images == 5:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.img3 = images[2]
+                        hotel_image_model.img4 = images[3]
+                        hotel_image_model.img5 = images[4]
+                        hotel_image_model.save()
+                    elif length_of_images == 6:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.img3 = images[2]
+                        hotel_image_model.img4 = images[3]
+                        hotel_image_model.img5 = images[4]
+                        hotel_image_model.img6 = images[5]
+                        hotel_image_model.save()
+                    elif length_of_images == 7:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.img3 = images[2]
+                        hotel_image_model.img4 = images[3]
+                        hotel_image_model.img5 = images[4]
+                        hotel_image_model.img6 = images[5]
+                        hotel_image_model.img7 = images[6]
+                        hotel_image_model.save()
+                    elif length_of_images == 8:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.img3 = images[2]
+                        hotel_image_model.img4 = images[3]
+                        hotel_image_model.img5 = images[4]
+                        hotel_image_model.img6 = images[5]
+                        hotel_image_model.img7 = images[6]
+                        hotel_image_model.img8 = images[7]
+                        hotel_image_model.save()
+                    elif length_of_images == 9:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.img3 = images[2]
+                        hotel_image_model.img4 = images[3]
+                        hotel_image_model.img5 = images[4]
+                        hotel_image_model.img6 = images[5]
+                        hotel_image_model.img7 = images[6]
+                        hotel_image_model.img8 = images[7]
+                        hotel_image_model.img9 = images[8]
+                        hotel_image_model.save()
+                    elif length_of_images == 10:
+                        hotel_image_model.img1 = images[0]
+                        hotel_image_model.img2 = images[1]
+                        hotel_image_model.img3 = images[2]
+                        hotel_image_model.img4 = images[3]
+                        hotel_image_model.img5 = images[4]
+                        hotel_image_model.img6 = images[5]
+                        hotel_image_model.img7 = images[6]
+                        hotel_image_model.img8 = images[7]
+                        hotel_image_model.img9 = images[8]
+                        hotel_image_model.img10 = images[9]
+                        hotel_image_model.save()
+                messages.success(request, "Successfully updated!")
+                return redirect('apHotelList')
         except:
             messages.warning(request, "Something wrong! Try again!")
             return redirect('apHotelList')
@@ -344,6 +492,97 @@ def ap_update_hotel_info(request, pk):
     return render(request, 'backEnd_superAdmin/update_hotel_info.html', context)
 
 
+
+# deals section starts*****************************************
+# @login_required(login_url='/ap/login/register')
+def ap_add_deals(request):
+
+    if request.method == 'POST':
+        title = request.POST.get("title")
+        promocode = request.POST.get("promocode")
+        brand_name = request.POST.get("brand_name")
+        terms_coditions = request.POST.get("terms_coditions")
+        brand_logo = request.FILES['brand_logo']
+
+        if title and promocode and brand_logo and brand_name and terms_coditions:
+            deals_model = Deals(title=title, promocode=promocode, brand_name=brand_name, terms_condition=terms_coditions, logo=brand_logo)
+            deals_model.save()
+            messages.success(request, "Successfully added!")
+            return redirect('apAddDeal')
+
+    return render(request, 'backEnd_superAdmin/add_deal.html')
+
+# @login_required(login_url='/ap/login/register')
+def ap_deal_list(request):
+
+    # deals list
+    deals_list = Deals.objects.all()
+
+    context = {
+        'deals_list' : deals_list,
+    }
+    return render(request, 'backEnd_superAdmin/deals_list.html', context)
+
+# @login_required(login_url='/ap/login/register')
+def ap_del_deal(request, pk):
+
+    try:
+        fs = FileSystemStorage()
+        current_deal = Deals.objects.get(pk=pk)
+        fs.delete(current_deal.logo.name)
+        current_deal.delete()
+        messages.success(request, "Successfully deleted!")
+        return redirect('apDealList')
+    except:
+        messages.warning(request, "Can't be deleted! Try again!")
+        return redirect('apDealList')
+    return redirect('apDealList')
+
+
+# @login_required(login_url='/ap/login/register')
+def ap_update_deal(request, pk):
+
+    current_obj = Deals.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        title = request.POST.get("title")
+        promocode = request.POST.get("promocode")
+        brand_name = request.POST.get("brand_name")
+        terms_coditions = request.POST.get("terms_coditions")
+
+
+        if title and promocode and brand_name and terms_coditions:
+            try:
+                fs = FileSystemStorage()
+                brand_logo = request.FILES['brand_logo']
+                if brand_logo:
+                    # deleting current logo
+                    fs.delete(current_obj.logo.name)
+
+                    current_obj.title = title
+                    current_obj.promocode = promocode
+                    current_obj.brand_name = brand_name
+                    current_obj.terms_condition = terms_coditions
+                    current_obj.logo = brand_logo
+                    current_obj.save()
+                    messages.success(request, "Successfully added!")
+                    return redirect('apDealList')
+            except:
+                current_obj.title = title
+                current_obj.promocode = promocode
+                current_obj.brand_name = brand_name
+                current_obj.terms_condition = terms_coditions
+                current_obj.save()
+                messages.success(request, "Successfully added!")
+                return redirect('apDealList')
+
+
+    context = {
+        'current_pk' : pk,
+        'current_obj' : current_obj,
+    }
+
+    return render(request, 'backEnd_superAdmin/update_deal.html', context)
 
 
 

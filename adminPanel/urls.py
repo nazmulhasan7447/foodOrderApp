@@ -25,4 +25,10 @@ urlpatterns = [
     re_path(r'^ap/del/hotel/(?P<pk>\d+)/$', views.ap_del_hotel, name='apDeleteHotel'),
     re_path(r'^ap/update/hotel/(?P<pk>\d+)/$', views.ap_update_hotel_info, name='apUpdateHotelInfo'),
 
+    # deal section &****************************************
+    re_path(r'^ap/add/deal/$', views.ap_add_deals, name='apAddDeal'),
+    re_path(r'^ap/deal/list/$', views.ap_deal_list, name='apDealList'),
+    re_path(r'^ap/del/deal/(?P<pk>\d+)/$', views.ap_del_deal, name='apDelDeal'),
+    re_path(r'^ap/update/deal/(?P<pk>\d+)/$', views.ap_update_deal, name='apUpdateDeal'),
+
 ]
