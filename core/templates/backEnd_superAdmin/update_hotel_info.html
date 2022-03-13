@@ -1,0 +1,188 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Update hotel information</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apUpdateHotelInfo' current_pk %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Hotel Name</label>
+                                <textarea class="form-control" name="name" id="name" rows="3"
+                                          placeholder="Hotel Name" required>{{current_obj.name}}</textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label>City</label>
+                                <input type="text" name="city" value="{{current_obj.city}}" class="form-control" placeholder="City" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>State</label>
+                                <input type="text" name="state" value="{{current_obj.state}}" class="form-control" placeholder="State" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Description</label>
+                                <textarea class="form-control" name="description" id="description" rows="3"
+                                          placeholder="Description" required>{{current_obj.description}}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Check In</label>
+                                <input type="time" name="check_in" value="{{current_obj.check_in}}" class="form-control" placeholder="Check in" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Check Out</label>
+                                <input type="time" name="check_out"value="{{current_obj.check_out}}" class="form-control" placeholder="Check out"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Attraction Name One</label>
+                                <input type="text" name="attraction_name_one" class="form-control"
+                                       placeholder="Attraction Name One" value="{{current_obj.attraction_one_name}}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Attraction One Distance(km)</label>
+                                <input type="text" name="attraction_one_distance" class="form-control"
+                                       placeholder="Attraction One Distance" value="{{current_obj.attraction_one_distance}}" required>
+                            </div>
+                        </div>
+
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Attraction Name Two</label>
+                                <input type="text" name="attraction_name_two" class="form-control"
+                                       placeholder="Attraction Name Two" value="{{current_obj.attraction_two_name}}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Attraction Two Distance(km)</label>
+                                <input type="text" name="attraction_name_two_distance" value="{{current_obj.attraction_two_distance}}" class="form-control"
+                                       placeholder="Attraction Two Distance" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Maps Link</label>
+                                <input type="text" name="map_link" class="form-control"
+                                       placeholder="Map Link" value="{{current_obj.map_link}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    {% if current_obj.wifi %}
+                                    <label>
+                                        <input type="checkbox" name="wifi" checked> Wifi
+                                    </label>
+                                    {% else %}
+                                    <label>
+                                        <input type="checkbox" name="wifi"> Wifi
+                                    </label>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    {% if current_obj.tv %}
+                                    <label>
+                                        <input type="checkbox" name="tv" checked> TV
+                                    </label>
+                                    {% else %}
+                                    <label>
+                                        <input type="checkbox" name="tv"> TV
+                                    </label>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    {% if current_obj.parking %}
+                                    <label>
+                                        <input type="checkbox" name="parking" checked> Parking
+                                    </label>
+                                    {% else %}
+                                    <label>
+                                        <input type="checkbox" name="parking"> Parking
+                                    </label>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    {% if current_obj.ac %}
+                                    <label>
+                                        <input type="checkbox" name="ac" checked> AC
+                                    </label>
+                                    {% else %}
+                                    <label>
+                                        <input type="checkbox" name="ac"> AC
+                                    </label>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary admin__prdctAdd_btn">Update</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+

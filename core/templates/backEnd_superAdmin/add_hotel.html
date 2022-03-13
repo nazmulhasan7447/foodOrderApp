@@ -1,0 +1,164 @@
+{% extends 'backEnd_superAdmin/index.html' %}
+{% load static %}
+
+
+{% block main_block %}
+<div class="container" style="padding-top: 55px;">
+    <div class="row">
+        <div class="col-md-12">
+
+            {% if messages %}
+            {% for message in messages %}
+
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %}>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}!
+            </div>
+
+            {% endfor %}
+            {% endif %}
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add hotel</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form action="{% url 'apAddHotel' %}" method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="box-body">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Hotel Name</label>
+                                <textarea class="form-control" name="name" id="name" rows="3"
+                                          placeholder="Hotel Name" required></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label>City</label>
+                                <input type="text" name="city" class="form-control" placeholder="City" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>State</label>
+                                <input type="text" name="state" class="form-control" placeholder="State" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Description</label>
+                                <textarea class="form-control" name="description" id="description" rows="3"
+                                          placeholder="Description" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Check In</label>
+                                <input type="time" name="check_in" class="form-control" placeholder="Check in" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Check Out</label>
+                                <input type="time" name="check_out" class="form-control" placeholder="Check out"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Attraction Name One</label>
+                                <input type="text" name="attraction_name_one" class="form-control"
+                                       placeholder="Attraction Name One" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Attraction One Distance(km)</label>
+                                <input type="text" name="attraction_one_distance" class="form-control"
+                                       placeholder="Attraction One Distance" required>
+                            </div>
+                        </div>
+
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Attraction Name Two</label>
+                                <input type="text" name="attraction_name_two" class="form-control"
+                                       placeholder="Attraction Name Two" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Attraction Two Distance(km)</label>
+                                <input type="text" name="attraction_name_two_distance" class="form-control"
+                                       placeholder="Attraction Two Distance" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Maps Link</label>
+                                <input type="text" name="map_link" class="form-control"
+                                       placeholder="Map Link" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="wifi"> Wifi
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="tv"> TV
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="parking"> Parking
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ac"> AC
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary admin__prdctAdd_btn">LET'S ADD</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block dropzone_block %}
+
+<script>
+</script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+{% endblock %}
+
